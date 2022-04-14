@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZBlog.API", "Filter\ZBlog.API.csproj", "{E90B74F7-ABF3-4212-81D6-1E4BD9F239CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.DAL", "Filter.DAL\Blog.DAL.csproj", "{E1BF0CAE-52DC-4402-8FCA-C6E869018CF1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E90B74F7-ABF3-4212-81D6-1E4BD9F239CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E90B74F7-ABF3-4212-81D6-1E4BD9F239CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E90B74F7-ABF3-4212-81D6-1E4BD9F239CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E90B74F7-ABF3-4212-81D6-1E4BD9F239CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1BF0CAE-52DC-4402-8FCA-C6E869018CF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1BF0CAE-52DC-4402-8FCA-C6E869018CF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1BF0CAE-52DC-4402-8FCA-C6E869018CF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1BF0CAE-52DC-4402-8FCA-C6E869018CF1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {414339D4-FA87-4952-91E8-058DC55F4EA1}
+	EndGlobalSection
+EndGlobal
