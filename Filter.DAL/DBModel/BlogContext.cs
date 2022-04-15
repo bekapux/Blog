@@ -1,16 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Filter.DAL
 {
     public partial class BlogContext : DbContext
     {
+        private readonly DbContextOptions<BlogContext> options;
+        private readonly string ConnectionString;
+
         public BlogContext()
         {
         }
 
-        public BlogContext(DbContextOptions<BlogContext> options)
+        public BlogContext(DbContextOptions<BlogContext> options, IConfiguration configuration)
             : base(options)
         {
+            this.options = options;
+            this.ConnectionString = configuration.GetConnectionString("Default");
         }
 
         public virtual DbSet<Permission> Permissions { get; set; } = null!;
@@ -25,7 +31,7 @@ namespace Filter.DAL
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Blog;User ID=sa;Password=asdASD123;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                optionsBuilder.UseSqlServer(ConnectionString);
             }
         }
 
