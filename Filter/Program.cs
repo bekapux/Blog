@@ -1,3 +1,5 @@
+using AutoMapper;
+using Blog.DAL;
 using Filter.DAL;
 using Filter.DAL.Repository.Posts;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,14 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 });
 
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new AutoMapperProfile());
+});
+
+IMapper mapper = mapperConfig.CreateMapper();
+
+builder.Services.AddSingleton(mapper);
 
 builder.Services.AddScoped<IPostsService, PostsService>();
 builder.Services.AddEndpointsApiExplorer();

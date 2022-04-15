@@ -19,10 +19,17 @@ namespace ZBlog.API.Controllers
 
 
         [HttpGet("getall")]
-        public async Task<ServiceResponse<IEnumerable<PostDto>>> Get()
+        public async Task<ServiceResponse<IEnumerable<Post>>> Get()
         {
             var Result = await postsService.Posts_GetAll();
             return Result;
+        }
+
+        [HttpPost("add-post")]
+        public async Task<ServiceResponse<int>> AddPost(AddPostDto newPost)
+        {
+            var result = await postsService.Posts_AddNew(newPost);
+            return result;
         }
     }
 }

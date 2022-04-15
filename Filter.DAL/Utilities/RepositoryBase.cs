@@ -1,12 +1,16 @@
-﻿namespace Filter.DAL
+﻿using AutoMapper;
+
+namespace Filter.DAL
 {
     public class RepositoryBase
     {
-        protected readonly BlogContext context;
+        protected readonly BlogContext _context;
+        protected readonly IMapper _mapper;
 
-        public RepositoryBase(BlogContext context)
+        public RepositoryBase(BlogContext context, IMapper mapper)
         {
-            this.context = context;
+            _context = context;
+            _mapper = mapper;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Blog.DAL.DTO;
+﻿using AutoMapper;
+using Blog.DAL.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace Filter.DAL.Repository.Posts
@@ -6,32 +7,33 @@ namespace Filter.DAL.Repository.Posts
     public class PostsService : RepositoryBase, IPostsService
     {
         #region Constructors
-        public PostsService(BlogContext context) : base(context) { }
+        public PostsService(BlogContext _context, IMapper _mapper) : base(_context, _mapper) { }
+
+        public async Task<ServiceResponse<int>> Posts_AddNew(AddPostDto post)
+        {
+            var SR = new ServiceResponse<int>();
+            try
+            {
+                var newPost = _mapper.Map<Post>(post);
+                _context.Posts.Add(newPost);
+                SR.Data = await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                SR.IsSuccess = false;
+            }
+            return SR;
+        }
         #endregion
 
         #region Methods
-        public async Task<ServiceResponse<IEnumerable<PostDto>>> Posts_GetAll()
+        public async Task<ServiceResponse<IEnumerable<Post>>> Posts_GetAll()
         {
-            var SR = new ServiceResponse<IEnumerable<PostDto>>();
+            var SR = new ServiceResponse<IEnumerable<Post>>();
             try
             {
-                SR.Data = await context.Posts
-                    .Include(x => x.PostAuthorUser)
-                    .Include(x => x.PostCategory)
+                SR.Data = await _context.Posts
                     .Where(x => x.PostIsVisible == true)
-                    .Select(x => new PostDto 
-                    { 
-                        PostAuthorUser = x.PostAuthorUser,
-                        PostAuthorUserId = x.PostAuthorUserId,
-                        PostCategoryId = x.PostCategoryId,
-                        PostTitle = x.PostTitle,
-                        PostDateCreated = x.PostDateCreated,
-                        PostFullVersion = x.PostFullVersion,
-                        PostId = x.PostId,
-                        PostIsVisible = x.PostIsVisible,
-                        PostShortVersion = x.PostShortVersion,
-                        PostCategory = x.PostCategory                    
-                    })
                     .ToListAsync();
             }
             catch (Exception ex)
@@ -46,7 +48,7 @@ namespace Filter.DAL.Repository.Posts
             var SR = new ServiceResponse<Post>();
             try
             {
-                SR.Data = await context.Posts.Where(x => x.PostIsVisible == true).FirstOrDefaultAsync(x => x.PostId == PostID);
+                SR.Data = await _context.Posts.Where(x => x.PostIsVisible == true).FirstOrDefaultAsync(x => x.PostId == PostID);
                 if (SR.Data == null)
                 {
                     SR.ErrorMessage = "Not Found";
