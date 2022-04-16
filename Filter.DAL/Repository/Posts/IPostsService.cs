@@ -9,6 +9,7 @@ namespace Filter.DAL.Repository.Posts
         Task<ServiceResponse<Post>> Posts_GetSingleByID(int PostID);
         Task<ServiceResponse<int>> Posts_AddNew(CreateUpdatePostDto post);
         Task<ServiceResponse<int?>> Posts_UpdateByID(int PostID, CreateUpdatePostDto updatedPost);
+        Task<ServiceResponse<int?>> Posts_DeletByID(int PostID);
 
     }
 }

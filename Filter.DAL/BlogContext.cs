@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Blog.DAL
 {
     public partial class BlogContext : DbContext
     {
-        public BlogContext()
+        private readonly string? ConnectionString;
+        public BlogContext(IConfiguration configuration)
         {
+            ConnectionString = configuration.GetConnectionString("Default");
         }
 
-        public BlogContext(DbContextOptions<BlogContext> options): base(options){}
+        public BlogContext(DbContextOptions<BlogContext> options) : base(options) { }
 
         public virtual DbSet<Permission> Permissions { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
@@ -25,7 +25,7 @@ namespace Blog.DAL
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Blog;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                optionsBuilder.UseSqlServer(ConnectionString!);
             }
         }
 

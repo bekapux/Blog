@@ -1,6 +1,5 @@
 using AutoMapper;
 using Blog.DAL;
-using Filter.DAL;
 using Filter.DAL.Repository.Posts;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,26 +8,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var ConnectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("Default");
-builder.Services.AddDbContext<BlogContext>(options =>
-                options.UseSqlServer(ConnectionString));
+
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 });
 
-var mapperConfig = new MapperConfiguration(mc =>
-{
-    mc.AddProfile(new AutoMapperProfile());
-});
-
-IMapper mapper = mapperConfig.CreateMapper();
-
-builder.Services.AddSingleton(mapper);
-
+builder.Services.AddSingleton(new MapperConfiguration(mc => mc.AddProfile(new AutoMapperProfile())).CreateMapper());
 builder.Services.AddScoped<IPostsService, PostsService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<BlogContext>(options => options.UseSqlServer(ConnectionString));
 
 var app = builder.Build();
 
