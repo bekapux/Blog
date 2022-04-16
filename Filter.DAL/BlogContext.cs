@@ -5,13 +5,15 @@ namespace Blog.DAL
 {
     public partial class BlogContext : DbContext
     {
-        private readonly string? ConnectionString;
-        public BlogContext(IConfiguration configuration)
+
+        private readonly DbContextOptions<BlogContext> options;
+        private readonly string ConnectionString;
+        public BlogContext(DbContextOptions<BlogContext> options, IConfiguration configuration)
         {
             ConnectionString = configuration.GetConnectionString("Default");
+            this.options = options;
         }
 
-        public BlogContext(DbContextOptions<BlogContext> options) : base(options) { }
 
         public virtual DbSet<Permission> Permissions { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
