@@ -5,6 +5,7 @@ namespace Filter.DAL
 {
     public class RepositoryBase
     {
+        #region Constructors
         protected readonly BlogContext _context;
         protected readonly IMapper _mapper;
 
@@ -13,5 +14,6 @@ namespace Filter.DAL
             _context = context;
             _mapper = mapper;
         }
+        #endregion
     }
 }

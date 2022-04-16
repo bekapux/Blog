@@ -11,14 +11,16 @@ namespace ZBlog.API.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
+        #region Constructors
         private readonly IPostsService postsService;
 
         public PostsController(IPostsService postsService)
         {
             this.postsService = postsService;
         }
+        #endregion
 
-
+        #region Actions
         [HttpGet("getall", Name = ControllerActionRouteNames.Posts.GetAll)]
         public async Task<ServiceResponse<IEnumerable<Post>>> Get()
         {
@@ -53,5 +55,6 @@ namespace ZBlog.API.Controllers
             var result = await postsService.Posts_DeletByID(PostID);
             return result;
         }
+        #endregion
     }
 }
