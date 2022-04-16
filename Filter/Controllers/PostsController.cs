@@ -1,4 +1,5 @@
-﻿using Blog.DAL.DTO;
+﻿using Blog.DAL;
+using Blog.DAL.DTO;
 using Filter.DAL;
 using Filter.DAL.Repository.Posts;
 using Microsoft.AspNetCore.Http;
@@ -26,9 +27,16 @@ namespace ZBlog.API.Controllers
         }
 
         [HttpPost("add-post")]
-        public async Task<ServiceResponse<int>> AddPost(AddPostDto newPost)
+        public async Task<ServiceResponse<int>> AddPost(CreateUpdatePostDto newPost)
         {
             var result = await postsService.Posts_AddNew(newPost);
+            return result;
+        }
+
+        [HttpPut("update-post/{PostID}")]
+        public async Task<ServiceResponse<int?>> UpdatePost(int PostID, CreateUpdatePostDto updatedPost)
+        {
+            var result = await postsService.Posts_UpdateByID(PostID, updatedPost);
             return result;
         }
     }

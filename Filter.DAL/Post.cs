@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Filter.DAL
+namespace Blog.DAL
 {
     public partial class Post
     {

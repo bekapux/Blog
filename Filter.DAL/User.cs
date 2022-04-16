@@ -1,4 +1,7 @@
-﻿namespace Filter.DAL
+﻿using System;
+using System.Collections.Generic;
+
+namespace Blog.DAL
 {
     public partial class User
     {

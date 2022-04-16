@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Blog.DAL;
 
 namespace Filter.DAL
 {

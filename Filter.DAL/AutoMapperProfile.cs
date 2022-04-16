@@ -8,7 +8,7 @@ namespace Blog.DAL
     {
         public AutoMapperProfile()
         {
-            CreateMap<AddPostDto, Post>();
+            CreateMap< CreateUpdatePostDto, Post >();
         }
     }
 }

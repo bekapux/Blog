@@ -1,4 +1,5 @@
-﻿using Blog.DAL.DTO;
+﻿using Blog.DAL;
+using Blog.DAL.DTO;
 
 namespace Filter.DAL.Repository.Posts
 {
@@ -6,7 +7,8 @@ namespace Filter.DAL.Repository.Posts
     {
         Task<ServiceResponse<IEnumerable<Post>>> Posts_GetAll();
         Task<ServiceResponse<Post>> Posts_GetSingleByID(int PostID);
-        Task<ServiceResponse<int>> Posts_AddNew(AddPostDto post);
+        Task<ServiceResponse<int>> Posts_AddNew(CreateUpdatePostDto post);
+        Task<ServiceResponse<int?>> Posts_UpdateByID(int PostID, CreateUpdatePostDto updatedPost);
 
     }
 }

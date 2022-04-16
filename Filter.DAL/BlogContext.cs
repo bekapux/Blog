@@ -1,23 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Filter.DAL
+namespace Blog.DAL
 {
     public partial class BlogContext : DbContext
     {
-        private readonly DbContextOptions<BlogContext> options;
-        private readonly string ConnectionString;
-
         public BlogContext()
         {
         }
 
-        public BlogContext(DbContextOptions<BlogContext> options, IConfiguration configuration)
-            : base(options)
-        {
-            this.options = options;
-            this.ConnectionString = configuration.GetConnectionString("Default");
-        }
+        public BlogContext(DbContextOptions<BlogContext> options): base(options){}
 
         public virtual DbSet<Permission> Permissions { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
@@ -31,7 +25,7 @@ namespace Filter.DAL
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(ConnectionString);
+                optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Blog;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
 
@@ -41,22 +35,23 @@ namespace Filter.DAL
             {
                 entity.Property(e => e.PermissionId).HasColumnName("PermissionID");
 
-                entity.Property(e => e.PermissionActionName)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
+                entity.Property(e => e.PermissionActionName).HasMaxLength(200);
 
                 entity.Property(e => e.PermissionDateCreated)
-                    .HasMaxLength(10)
-                    .HasDefaultValueSql("(getdate())")
-                    .IsFixedLength();
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.PermissionName)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
+                entity.Property(e => e.PermissionName).HasMaxLength(200);
+
+                entity.Property(e => e.PermissionParentId).HasColumnName("PermissionParentID");
             });
 
             modelBuilder.Entity<Post>(entity =>
             {
+                entity.HasIndex(e => e.PostAuthorUserId, "IX_Posts_PostAuthorUserID");
+
+                entity.HasIndex(e => e.PostCategoryId, "IX_Posts_PostCategoryID");
+
                 entity.Property(e => e.PostId).HasColumnName("PostID");
 
                 entity.Property(e => e.PostAuthorUserId).HasColumnName("PostAuthorUserID");
@@ -85,6 +80,8 @@ namespace Filter.DAL
 
             modelBuilder.Entity<PostCategory>(entity =>
             {
+                entity.HasIndex(e => e.PostCategoryParentId, "IX_PostCategories_PostCategoryParentID");
+
                 entity.Property(e => e.PostCategoryId).HasColumnName("PostCategoryID");
 
                 entity.Property(e => e.PostCategoryDateCreated)
@@ -103,11 +100,15 @@ namespace Filter.DAL
 
             modelBuilder.Entity<PostComment>(entity =>
             {
+                entity.HasIndex(e => e.PostCommentPostId, "IX_PostComments_PostCommentPostID");
+
                 entity.Property(e => e.PostCommentId).HasColumnName("PostCommentID");
 
                 entity.Property(e => e.PostComment1)
                     .HasMaxLength(300)
                     .HasColumnName("PostComment");
+
+                entity.Property(e => e.PostCommentParentId).HasColumnName("PostCommentParentID");
 
                 entity.Property(e => e.PostCommentPostId).HasColumnName("PostCommentPostID");
 
@@ -137,6 +138,10 @@ namespace Filter.DAL
             {
                 entity.HasKey(e => e.RolePermissionId);
 
+                entity.HasIndex(e => e.PermissionId, "IX_RolesPermissions_PermissionID");
+
+                entity.HasIndex(e => e.RoleId, "IX_RolesPermissions_RoleID");
+
                 entity.Property(e => e.RolePermissionId).HasColumnName("RolePermissionID");
 
                 entity.Property(e => e.PermissionId).HasColumnName("PermissionID");
@@ -156,6 +161,8 @@ namespace Filter.DAL
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.HasIndex(e => e.UserRoleId, "IX_Users_UserRoleID");
+
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.Property(e => e.UserDateCreated)
