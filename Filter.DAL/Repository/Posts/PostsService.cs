@@ -66,10 +66,10 @@ namespace Filter.DAL.Repository.Posts
       return SR;
     }
 
-    public async Task<ServiceResponse<int?>> Posts_UpdateByID(int PostID, CreateUpdatePostDTO updatedPost)
+    public async Task<ServiceResponse<int?>> Posts_Insert_Update(CreateUpdatePostDTO updatedPost)
     {
       var SR = new ServiceResponse<int?>();
-      var OldPost = await _context.Posts.FirstOrDefaultAsync(x => x.PostId == PostID);
+      var OldPost = await _context.Posts.FirstOrDefaultAsync(x => x.PostId == updatedPost.PostID);
       if (OldPost != null)
       {
         OldPost.PostIsVisible = updatedPost.PostIsVisible ?? OldPost.PostIsVisible;
@@ -82,11 +82,9 @@ namespace Filter.DAL.Repository.Posts
       }
       else
       {
-        SR.IsSuccess = false;
-        SR.ErrorMessage = "Post Not Found";
-        SR.Data = null;
+        _context.Posts.Add(_mapper.Map<Post>(updatedPost));
+        SR.Data = await _context.SaveChangesAsync();
       }
-
       return SR;
     }
 

@@ -35,21 +35,14 @@ namespace ZBlog.API.Controllers
             return Result;
         }
 
-        [HttpPost("add-post", Name = ControllerActionRouteNames.Posts.Add)]
-        public async Task<ServiceResponse<int>> AddPost(CreateUpdatePostDTO newPost)
+        [HttpPut("insert-update-post", Name = ControllerActionRouteNames.Posts.Update)]
+        public async Task<ServiceResponse<int?>> UpdatePost(CreateUpdatePostDTO updatedPost)
         {
-            var result = await postsService.Posts_AddNew(newPost);
+            var result = await postsService.Posts_Insert_Update(updatedPost);
             return result;
         }
 
-        [HttpPut("update-post/{PostID}", Name = ControllerActionRouteNames.Posts.Update)]
-        public async Task<ServiceResponse<int?>> UpdatePost(int PostID, CreateUpdatePostDTO updatedPost)
-        {
-            var result = await postsService.Posts_UpdateByID(PostID, updatedPost);
-            return result;
-        }
-
-        [HttpPut("delete-post/{PostID}", Name = ControllerActionRouteNames.Posts.Delete)]
+        [HttpDelete("delete-post/{PostID}", Name = ControllerActionRouteNames.Posts.Delete)]
         public async Task<ServiceResponse<int?>> DeletePost(int PostID)
         {
             var result = await postsService.Posts_DeletByID(PostID);

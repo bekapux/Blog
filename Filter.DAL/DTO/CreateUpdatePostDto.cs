@@ -9,7 +9,8 @@ namespace Blog.DAL.DTO
 {
     public class CreateUpdatePostDTO
     {
-        #region Properties
+    #region Properties
+        public int? PostID { get; set; }
         public string PostTitle { get; set; } = null!;
         public string? PostShortVersion { get; set; }
         public string? PostFullVersion { get; set; }
