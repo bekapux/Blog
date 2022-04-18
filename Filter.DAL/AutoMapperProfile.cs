@@ -9,9 +9,12 @@ namespace Blog.DAL
     public AutoMapperProfile()
     {
       CreateMap<CreateUpdatePostDTO, Post>();
-      CreateMap<Post, GetPostsDTO>();
+      CreateMap<Post, PostsGetDTO>();
       CreateMap<User, PostAuthorDTO>();
       CreateMap<PostCategory, PostCategoryDTO>();
+      CreateMap<User, CreateUpdateUserDTO>();
+      CreateMap<User, UsersGetDTO>();
+      CreateMap<Role, UserRoleGetDTO>();
     }
   }
 }

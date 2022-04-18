@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Filter.DAL\Blog.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

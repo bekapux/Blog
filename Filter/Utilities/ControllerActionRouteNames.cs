@@ -12,5 +12,14 @@
             public const string Delete  = "DeletePost";
             #endregion
         }
+    public static class Users
+    {
+      #region Properties
+      public const string GetAll = "GetAllUsers";
+      public const string GetByID = "GetByUserID";
+      public const string AddUpdate = "AddUpdatePost";
+      public const string Delete = "DeletePost";
+      #endregion
     }
+  }
 }

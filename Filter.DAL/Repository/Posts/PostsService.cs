@@ -12,16 +12,16 @@ namespace Filter.DAL.Repository.Posts
     #endregion
 
     #region Methods
-    public async Task<ServiceResponse<IEnumerable<GetPostsDTO>>> Posts_GetAll()
+    public async Task<ServiceResponse<IEnumerable<PostsGetDTO>>> Posts_GetAll()
     {
-      var SR = new ServiceResponse<IEnumerable<GetPostsDTO>>();
+      var SR = new ServiceResponse<IEnumerable<PostsGetDTO>>();
       try
       {
         SR.Data= await _context.Posts
             .Where(x => x.PostIsVisible == true)
             .Include(x=> x.PostAuthorUser)
             .Include(x=> x.PostCategory)
-            .Select(x => _mapper.Map<GetPostsDTO>(x)).ToListAsync();
+            .Select(x => _mapper.Map<PostsGetDTO>(x)).ToListAsync();
       }
       catch (Exception ex)
       {

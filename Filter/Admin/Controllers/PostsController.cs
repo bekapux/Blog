@@ -22,7 +22,7 @@ namespace ZBlog.API.Controllers
 
         #region Actions
         [HttpGet("getall", Name = ControllerActionRouteNames.Posts.GetAll)]
-        public async Task<ServiceResponse<IEnumerable<GetPostsDTO>>> Get()
+        public async Task<ServiceResponse<IEnumerable<PostsGetDTO>>> Get()
         {
             var Result = await postsService.Posts_GetAll();
             return Result;

@@ -1,6 +1,6 @@
 ﻿namespace Blog.DAL.DTO
 {
-  public class GetPostsDTO
+  public class PostsGetDTO
   {
     public int PostId { get; set; }
     public string PostTitle { get; set; } = null!;

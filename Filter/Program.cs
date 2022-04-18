@@ -1,5 +1,6 @@
 using AutoMapper;
 using Blog.DAL;
+using Blog.DAL.Repository.Users;
 using Filter.DAL.Repository.Posts;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 
 builder.Services.AddSingleton(new MapperConfiguration(mc => mc.AddProfile(new AutoMapperProfile())).CreateMapper());
 builder.Services.AddScoped<IPostsService, PostsService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BlogContext>(options => options.UseSqlServer(ConnectionString));
