@@ -1,19 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Blog.DAL
 {
     public partial class BlogContext : DbContext
     {
-
-        private readonly DbContextOptions<BlogContext> options;
-        private readonly string ConnectionString;
-        public BlogContext(DbContextOptions<BlogContext> options, IConfiguration configuration)
+        public BlogContext()
         {
-            ConnectionString = configuration.GetConnectionString("Default");
-            this.options = options;
         }
 
+        public BlogContext(DbContextOptions<BlogContext> options)
+            : base(options)
+        {
+        }
 
         public virtual DbSet<Permission> Permissions { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
@@ -27,7 +28,8 @@ namespace Blog.DAL
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(ConnectionString!);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Blog;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
 
@@ -37,15 +39,19 @@ namespace Blog.DAL
             {
                 entity.Property(e => e.PermissionId).HasColumnName("PermissionID");
 
-                entity.Property(e => e.PermissionActionName).HasMaxLength(200);
+                entity.Property(e => e.PermissionActionName)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PermissionActionRoute)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.PermissionDateCreated)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.PermissionName).HasMaxLength(200);
-
-                entity.Property(e => e.PermissionParentId).HasColumnName("PermissionParentID");
             });
 
             modelBuilder.Entity<Post>(entity =>
@@ -109,8 +115,6 @@ namespace Blog.DAL
                 entity.Property(e => e.PostComment1)
                     .HasMaxLength(300)
                     .HasColumnName("PostComment");
-
-                entity.Property(e => e.PostCommentParentId).HasColumnName("PostCommentParentID");
 
                 entity.Property(e => e.PostCommentPostId).HasColumnName("PostCommentPostID");
 
