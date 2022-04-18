@@ -22,7 +22,7 @@ namespace ZBlog.API.Controllers
 
         #region Actions
         [HttpGet("getall", Name = ControllerActionRouteNames.Posts.GetAll)]
-        public async Task<ServiceResponse<IEnumerable<Post>>> Get()
+        public async Task<ServiceResponse<IEnumerable<GetPostsDTO>>> Get()
         {
             var Result = await postsService.Posts_GetAll();
             return Result;
@@ -36,14 +36,14 @@ namespace ZBlog.API.Controllers
         }
 
         [HttpPost("add-post", Name = ControllerActionRouteNames.Posts.Add)]
-        public async Task<ServiceResponse<int>> AddPost(CreateUpdatePostDto newPost)
+        public async Task<ServiceResponse<int>> AddPost(CreateUpdatePostDTO newPost)
         {
             var result = await postsService.Posts_AddNew(newPost);
             return result;
         }
 
         [HttpPut("update-post/{PostID}", Name = ControllerActionRouteNames.Posts.Update)]
-        public async Task<ServiceResponse<int?>> UpdatePost(int PostID, CreateUpdatePostDto updatedPost)
+        public async Task<ServiceResponse<int?>> UpdatePost(int PostID, CreateUpdatePostDTO updatedPost)
         {
             var result = await postsService.Posts_UpdateByID(PostID, updatedPost);
             return result;

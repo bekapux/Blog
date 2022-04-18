@@ -1,12 +1,7 @@
-﻿namespace Blog.DAL
+﻿namespace Blog.DAL.DTO
 {
-  public partial class Post
+  public class GetPostsDTO
   {
-    public Post()
-    {
-      PostComments = new HashSet<PostComment>();
-    }
-
     public int PostId { get; set; }
     public string PostTitle { get; set; } = null!;
     public string? PostShortVersion { get; set; }
@@ -16,8 +11,7 @@
     public bool PostIsVisible { get; set; }
     public DateTime? PostDateCreated { get; set; }
 
-    public virtual User PostAuthorUser { get; set; } = null!;
-    public virtual PostCategory? PostCategory { get; set; }
-    public virtual ICollection<PostComment> PostComments { get; set; }
+    public virtual PostAuthorDTO? PostAuthorUser { get; set; }
+    public virtual PostCategoryDTO? PostCategory { get; set; }
   }
 }

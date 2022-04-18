@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blog.DAL.DTO
 {
-    public class CreateUpdatePostDto
+    public class CreateUpdatePostDTO
     {
         #region Properties
         public string PostTitle { get; set; } = null!;

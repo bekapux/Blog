@@ -5,10 +5,10 @@ namespace Filter.DAL.Repository.Posts
 {
     public interface IPostsService
     {
-        Task<ServiceResponse<IEnumerable<Post>>> Posts_GetAll();
+        Task<ServiceResponse<IEnumerable<GetPostsDTO>>> Posts_GetAll();
         Task<ServiceResponse<Post>> Posts_GetSingleByID(int PostID);
-        Task<ServiceResponse<int>> Posts_AddNew(CreateUpdatePostDto post);
-        Task<ServiceResponse<int?>> Posts_UpdateByID(int PostID, CreateUpdatePostDto updatedPost);
+        Task<ServiceResponse<int>> Posts_AddNew(CreateUpdatePostDTO post);
+        Task<ServiceResponse<int?>> Posts_UpdateByID(int PostID, CreateUpdatePostDTO updatedPost);
         Task<ServiceResponse<int?>> Posts_DeletByID(int PostID);
 
     }

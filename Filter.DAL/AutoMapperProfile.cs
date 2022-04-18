@@ -4,11 +4,14 @@ using Filter.DAL;
 
 namespace Blog.DAL
 {
-    public class AutoMapperProfile : Profile
+  public class AutoMapperProfile : Profile
+  {
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap< CreateUpdatePostDto, Post >();
-        }
+      CreateMap<CreateUpdatePostDTO, Post>();
+      CreateMap<Post, GetPostsDTO>();
+      CreateMap<User, PostAuthorDTO>();
+      CreateMap<PostCategory, PostCategoryDTO>();
     }
+  }
 }
